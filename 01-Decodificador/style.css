@@ -1,0 +1,276 @@
+:root {
+  --primary: #092635;
+  --secondary: #5C8374;
+
+  --text-primary: #9EC8B9;
+  --text-secondary: #9EC8B9;
+
+  --button-text-primary: #1B4242;
+  --button-text-secondary: #5C8374;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+.notificacao {
+  position: fixed;
+  top: -70px;
+  width: 100%;
+  transition: top .5s;
+}
+
+.notificacao p {
+  margin: 0 auto;
+  padding: 20px;
+  width: 350px;
+  color: var(--button-text-primary);
+  background: var(--secondary);
+  border-radius: 25px;
+  text-align: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--primary);
+  color: var(--text-primary);
+}
+
+header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
+}
+
+header svg {
+  fill: var(--secondary);
+}
+
+header h1 {
+  font-weight: 500;
+}
+
+main {
+  flex-grow: 1;
+  margin: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+main img {
+  width: 50%;
+}
+
+.interacao {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.interacao textarea {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+}
+
+.interacao textarea:focus {
+  outline: none;
+}
+
+.interacao__rodape {
+  width: auto;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.interacao__rodape__aviso {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.interacao__rodape__aviso img {
+  width: 24px;
+  aspect-ratio: 1 / 1;
+}
+
+.interacao__rodape__aviso p {
+  font-size: 1rem;
+}
+
+.interacao__rodape__botoes {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.interacao__rodape__botoes button {
+  padding: 20px 50px;
+  background: var(--secondary);
+  color: var(--button-text-primary);
+  border: none;
+  border-radius: 20px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.interacao__rodape__botoes button:last-child {
+  border: 1px solid var(--secondary);
+  background: none;
+  color: var(--secondary);
+}
+
+.mensagem {
+  position: relative;
+  width: 450px;
+  background: none;
+  border-radius: 32px;
+  box-shadow: 10px 10px 50px rgba(255, 255, 255, 0.05);
+  padding-bottom: 100px;
+}
+
+.mensagem textarea {
+  display: none;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  background: none;
+  border: none;
+  padding: 25px 15px;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.mensagem textarea:focus {
+  outline: none;
+}
+
+.mensagem__sem-mensagem {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.mensagem__sem-mensagem p {
+  text-align: center;
+  width: 80%;
+}
+
+.mensagem__sem-mensagem__titulo {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.copiar-wrapper {
+  display: none;
+  width: 100%;
+  position: absolute;
+  bottom: 20px;
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+}
+
+.copiar-wrapper button {
+  padding: 20px 50px;
+  border: 1px solid var(--secondary);
+  background: none;
+  color: var(--button-text-secondary);
+  border-radius: 20px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+footer {
+  margin: 20px;
+}
+
+footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  main {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .interacao__rodape {
+    margin: 0;
+  }
+
+  .interacao__rodape__botoes {
+    justify-content: space-around;
+  }
+
+  .interacao {
+    width: 100%;
+  }
+
+  .mensagem {
+    width: 100%;
+  }
+
+  .mensagem textarea {
+    min-height: 300px;
+  }
+
+  .mensagem__sem-mensagem {
+    padding: 20px;
+  }
+
+  .mensagem__sem-mensagem img {
+    display: none;
+  }
+
+  .copiar-wrapper button {
+    width: 90%;
+  }
+  
+}
+
+@media (max-width: 375px) {
+  main {
+    margin: 5%;
+  }
+
+  .interacao__rodape__botoes {
+    flex-direction: column;
+  }
+
+  .interacao__rodape__botoes button {
+    width: 90%;
+  }
+}
