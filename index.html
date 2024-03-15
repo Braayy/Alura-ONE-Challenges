@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+    <title>Alura ONE Challenges</title>
+    <style>
+        :root {
+            --primary: #092635;
+            --text-primary: #9EC8B9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+        }
+
+        body {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+            background: var(--primary);
+        }
+
+
+        .presentation {
+            margin: 20px 0;
+        }
+
+        .presentation p {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .challenges > p {
+            margin: 10px 0;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: 400px 400px 400px;
+            gap: 10px;
+        }
+
+        .challenges-grid a {
+            border: 1px solid var(--text-primary);
+            border-radius: 20px;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .challenges-grid a .title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .challenges-grid a .description {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alura ONE Challenges</h1>
+    <div class="presentation">
+        <p>Olá! Eu me chamo Brayan e tenho <span id="age"></span> anos.</p>
+        <p>Eu quero trabalhar com Desenvolvimento de Software nas áreas de Back-End e Software Embarcado</p>
+    </div>
+    <div class="challenges">
+        <p>Durante a minha jornada no projeto <b>Alura + ONE</b>, realizei os seguintes challenges:</p>
+        <div class="challenges-grid">
+            <a href="01-Decodificador/">
+                <p class="title">01 - Decodificador</p>
+                <p class="description">Troque mensagens de forma segura com seus amigos através desse inovador sistema de criptografia</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const birthYear = 2002;
+            const date = dayjs().month(6).day(25);
+
+            let age = date.year() - birthYear;
+            if (dayjs().isBefore(date, "day")) {
+                age -= 1;
+            }
+
+            document.getElementById("age").innerHTML = age;
+        })()
+    </script>
+</body>
+</html>
