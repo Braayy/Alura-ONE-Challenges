@@ -6,6 +6,7 @@ import io.github.braayy.forum.features.reply.ReplyService;
 import io.github.braayy.forum.features.user.User;
 import io.github.braayy.forum.features.user.UserRole;
 import io.github.braayy.forum.infra.security.SecurityService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/topics")
+@SecurityRequirement(name = "bearer-key")
 public class TopicController {
 
     private final TopicService topicService;

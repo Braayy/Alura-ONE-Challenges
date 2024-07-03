@@ -2,6 +2,7 @@ package io.github.braayy.forum.features.user;
 
 import io.github.braayy.forum.dto.ErrorDTO;
 import io.github.braayy.forum.infra.security.SecurityService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/users")
+@SecurityRequirement(name = "bearer-key")
 public class UserController {
 
     private final UserService userService;

@@ -4,6 +4,7 @@ import io.github.braayy.forum.dto.ErrorDTO;
 import io.github.braayy.forum.features.user.User;
 import io.github.braayy.forum.features.user.UserRole;
 import io.github.braayy.forum.infra.security.SecurityService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/replies")
+@SecurityRequirement(name = "bearer-key")
 public class ReplyController {
 
     private final ReplyService replyService;
