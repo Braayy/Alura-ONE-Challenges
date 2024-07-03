@@ -5,6 +5,7 @@ import io.github.braayy.forum.features.reply.ReplyService;
 import io.github.braayy.forum.features.topic.Topic;
 import io.github.braayy.forum.features.topic.TopicService;
 import io.github.braayy.forum.features.user.User;
+import io.github.braayy.forum.features.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,13 @@ public class SecurityService {
     public SecurityService(ReplyService replyService, TopicService topicService) {
         this.replyService = replyService;
         this.topicService = topicService;
+    }
+
+    public boolean canUpdateUser(Authentication authentication, Long userId) {
+        User loggedInUser = (User) authentication.getPrincipal();
+        Long loggedInUserId = loggedInUser.getId();
+
+        return loggedInUserId.equals(userId);
     }
 
     public boolean canUpdateTopic(Authentication authentication, Long topicId) {

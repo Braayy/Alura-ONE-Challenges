@@ -1,10 +1,12 @@
 package io.github.braayy.forum.features.user;
 
 import io.github.braayy.forum.dto.ErrorDTO;
+import io.github.braayy.forum.infra.security.SecurityService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,9 +18,11 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final SecurityService securityService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecurityService securityService) {
         this.userService = userService;
+        this.securityService = securityService;
     }
 
     @PostMapping
@@ -48,33 +52,24 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.canUpdateUser(authentication, #id)")
     public ResponseEntity<?> edit(
         @PathVariable Long id,
         @Valid @RequestBody UpdateUserDTO body
     ) {
-        var loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (loggedInUser.getRole() != UserRole.ADMIN && !id.equals(loggedInUser.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorDTO("Você não tem permissão para modificar esse usuário!"));
-        }
-
         User user = this.userService.update(id, body);
+
         return ResponseEntity.ok(new ShowUserDTO(user));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.canUpdateUser(authentication, #id)")
     public ResponseEntity<?> delete(
             @PathVariable Long id
     ) {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        var loggedInUser = (User) auth.getPrincipal();
-        if (loggedInUser.getRole() != UserRole.ADMIN && !id.equals(loggedInUser.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorDTO("Você não tem permissão para deletar esse usuário!"));
-        }
-
         this.userService.delete(id);
+
         return ResponseEntity.noContent().build();
     }
 
