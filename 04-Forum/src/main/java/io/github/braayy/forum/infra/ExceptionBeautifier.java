@@ -28,8 +28,9 @@ public class ExceptionBeautifier {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> notFound() {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<?> notFound(EntityNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDTO(exception.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
