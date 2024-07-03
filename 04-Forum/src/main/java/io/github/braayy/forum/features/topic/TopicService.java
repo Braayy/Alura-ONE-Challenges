@@ -50,7 +50,9 @@ public class TopicService {
         return this.topicRepository.findAllByAuthorAndCourse(authorId, courseId, pageable);
     }
 
-    public Topic update(Topic topic, UpdateTopicDTO dto) {
+    public Topic update(Long topicId, UpdateTopicDTO dto) {
+        Topic topic = this.topicRepository.getReferenceById(topicId);
+
         if (dto.title() != null) {
             topic.setTitle(dto.title());
         }

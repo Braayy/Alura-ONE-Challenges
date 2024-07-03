@@ -1,0 +1,18 @@
+meta {
+  name: Login Clebin
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "clebin@ymail.com",
+    "password": "batatinha"
+  }
+}

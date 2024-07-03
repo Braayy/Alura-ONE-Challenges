@@ -38,7 +38,9 @@ public class ReplyService {
         return this.replyRepository.getReferenceById(replyId);
     }
 
-    public Reply update(Reply reply, UpdateReplyDTO dto) {
+    public Reply update(Long replyId, UpdateReplyDTO dto) {
+        Reply reply = this.replyRepository.getReferenceById(replyId);
+
         if (dto.message() != null) {
             reply.setMessage(dto.message());
         }
@@ -46,7 +48,9 @@ public class ReplyService {
         return reply;
     }
 
-    public Reply markSolution(Reply reply, boolean solution) {
+    public Reply markSolution(Long replyId, boolean solution) {
+        Reply reply = this.replyRepository.getReferenceById(replyId);
+
         reply.setSolution(solution);
 
         return reply;

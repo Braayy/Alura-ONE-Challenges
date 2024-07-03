@@ -3,6 +3,7 @@ package io.github.braayy.forum.features.reply;
 import io.github.braayy.forum.dto.ErrorDTO;
 import io.github.braayy.forum.features.user.User;
 import io.github.braayy.forum.features.user.UserRole;
+import io.github.braayy.forum.infra.security.SecurityService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,9 +23,11 @@ import java.net.URI;
 public class ReplyController {
 
     private final ReplyService replyService;
+    private final SecurityService securityService;
 
-    public ReplyController(ReplyService replyService) {
+    public ReplyController(ReplyService replyService, SecurityService securityService) {
         this.replyService = replyService;
+        this.securityService = securityService;
     }
 
     @PostMapping
@@ -55,51 +59,34 @@ public class ReplyController {
 
     @PutMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.canUpdateReply(authentication, #id)")
     public ResponseEntity<?> update(
         @PathVariable Long id,
         @Valid @RequestBody UpdateReplyDTO body
     ) {
-        Reply reply = this.replyService.getById(id);
-        var loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (loggedInUser.getRole() != UserRole.ADMIN && !reply.getAuthor().getId().equals(loggedInUser.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorDTO("Você não tem permissão para modificar essa resposta!"));
-        }
+        Reply reply = this.replyService.update(id, body);
 
-        Reply updatedReply = this.replyService.update(reply, body);
-
-        return ResponseEntity.ok(new ShowReplyDTO(updatedReply));
+        return ResponseEntity.ok(new ShowReplyDTO(reply));
     }
 
     @PutMapping("/{id}/solution")
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.canMarkReplyAsSolution(authentication, #id)")
     public ResponseEntity<?> markSolution(
-        @PathVariable Long id
+        @PathVariable Long id,
+        @Valid @RequestBody MarkReplyAsSolutionDTO body
     ) {
-        Reply reply = this.replyService.getById(id);
-        var loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (loggedInUser.getRole() != UserRole.ADMIN && !reply.getTopic().getAuthor().getId().equals(loggedInUser.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorDTO("Você não tem permissão para marcar essa resposta como solução!"));
-        }
+        Reply reply = this.replyService.markSolution(id, body.solution());
 
-        Reply updatedReply = this.replyService.markSolution(reply, !reply.getSolution());
-
-        return ResponseEntity.ok(new ShowReplyDTO(updatedReply));
+        return ResponseEntity.ok(new ShowReplyDTO(reply));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @securityService.canUpdateReply(authentication, #id)")
     public ResponseEntity<?> delete(
         @PathVariable Long id
     ) {
-        Reply reply = this.replyService.getById(id);
-        var loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (loggedInUser.getRole() != UserRole.ADMIN && !reply.getAuthor().getId().equals(loggedInUser.getId())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ErrorDTO("Você não tem permissão para deletar essa resposta!"));
-        }
-
         this.replyService.deleteById(id);
 
         return ResponseEntity.noContent().build();

@@ -6,10 +6,16 @@ meta {
 
 put {
   url: http://localhost:8080/replies/1/solution
-  body: none
+  body: json
   auth: bearer
 }
 
 auth:bearer {
-  token: {{member_token}}
+  token: {{admin_token}}
+}
+
+body:json {
+  {
+    "solution": true
+  }
 }

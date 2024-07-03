@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     private final SecurityFilter securityFilter;
@@ -32,14 +34,17 @@ public class SecurityConfiguration {
             .authorizeHttpRequests((conf) -> conf
                 .requestMatchers(HttpMethod.POST, "/login", "/users").permitAll()
                 .requestMatchers(
-                        HttpMethod.GET,
-                        "/users/**",
-                        "/courses",
-                        "/courses/**",
-                        "/topics",
-                        "/topics/**",
-                        "/replies",
-                        "/replies/**"
+                    HttpMethod.GET,
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/users/**",
+                    "/courses",
+                    "/courses/**",
+                    "/topics",
+                    "/topics/**",
+                    "/replies",
+                    "/replies/**"
                 ).permitAll()
 
                 .requestMatchers(HttpMethod.POST, "/courses").hasRole(UserRole.ADMIN.name())
