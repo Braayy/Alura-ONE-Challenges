@@ -1,0 +1,1 @@
+alter table topics add constraint topic_title_message unique(title, message);

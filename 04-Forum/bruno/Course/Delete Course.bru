@@ -1,0 +1,15 @@
+meta {
+  name: Delete Course
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/courses/2
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmb3J1bS5odWIiLCJzdWIiOiJicmF5YW5AZm9ydW0uaHViIiwiZXhwIjoxNzE5Nzg4ODEwfQ.K1nTwu28VOM9-6JxjNnGLK8jw7AtU0khsvWPZBmdrdu6GF-VMxWedWBYjYlBCWVUaY0dDtTp0dYs8g3AgyDIpQ
+}

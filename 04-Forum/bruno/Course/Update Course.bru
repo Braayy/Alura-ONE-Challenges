@@ -1,0 +1,21 @@
+meta {
+  name: Update Course
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/courses/2
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{admin_token}}
+}
+
+body:json {
+  {
+    "name": "Spring Cache"
+  }
+}

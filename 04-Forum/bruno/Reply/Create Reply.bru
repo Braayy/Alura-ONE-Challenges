@@ -1,0 +1,22 @@
+meta {
+  name: Create Reply
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/replies
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{clebin_token}}
+}
+
+body:json {
+  {
+    "message": "lol",
+    "topicId": 3
+  }
+}

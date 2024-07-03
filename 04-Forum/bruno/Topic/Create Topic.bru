@@ -1,0 +1,23 @@
+meta {
+  name: Create Topic
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/topics
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{member_token}}
+}
+
+body:json {
+  {
+    "title": "COMO TIRA LETRA GRAMDE",
+    "message": "AAAAA AJUDA",
+    "courseId": 3
+  }
+}
